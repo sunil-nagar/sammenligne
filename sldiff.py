@@ -51,13 +51,16 @@ def diff(dir1, dir2):
         else:
             if not args.namecontains in item1:
                 continue
+            if len(args.extension) > 0:
+                ext = mime_types.extension(item1)
+                if not ext: ext = ''
+                if not args.extension in ext:
+                    continue
             size1 = compare.size(item1)
             size2 = compare.size(item2)
             if size1 != size2:
                 dm = diffmsg.create_size_mismatch(item1, size1, size2)
                 dm.display()
-                if not mime_types.is_extension(item1, args.extension):
-                    continue
                 if not mime_types.is_binary(item1):
                     linediffs = fdiff.cdiff(item1, item2, 
                                             args.trimlines, args.displaylines)
