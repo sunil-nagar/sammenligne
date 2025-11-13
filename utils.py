@@ -1,11 +1,22 @@
 import os
 
 
+def line_begins(s, ms):
+    matching = []
+    for line in s.splitlines():
+        line = line.strip()
+        for m in ms:
+            if line.startswith(m):
+                matching.append(line)
+    return matching
+
+
 def line_matching(s, m):
     for line in s.splitlines():
         if m in line:
             return line
     return None
+
 
 def diff_list(name1, name2, l1, l2):
     data = []
