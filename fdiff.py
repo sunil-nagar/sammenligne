@@ -24,18 +24,18 @@ def diff(path1, path2):
         return []
 
 
-def cdiff(path1, path2):
+def cdiff(path1, path2, trimlines, displaylines):
     clean = []
     linediffs = diff(path1, path2)
     if linediffs and len(linediffs) > 0:
         count = 0
         for ld in linediffs:
             line = ld.strip()
-            if len(line) > 80:
-                line = line[0:80]
+            if len(line) > trimlines:
+                line = line[0:trimlines]
             if (
                 len(line) > 0
-                and count < 10
+                and count < displaylines
                 and (line.startswith("+") or line.startswith("-"))
             ):
                 clean.append(line)

@@ -3,7 +3,6 @@ import zipfile
 from log import info, warn
 from datetime import datetime
 
-
 def diff(zip1, zip2):
     data = []
     with zipfile.ZipFile(zip1) as z1, zipfile.ZipFile(zip2) as z2:

@@ -48,6 +48,9 @@ def extension(f):
     trace("extension", extension)
     return extension
 
+def is_extension(f, e):
+    ext = extension(f)
+    return e in ext
 
 def is_base(f):
     trace("testing", f)
