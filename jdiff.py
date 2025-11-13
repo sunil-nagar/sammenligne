@@ -3,6 +3,13 @@ import re
 from utils import line_matching, diff_list
 
 
+def jar_manifest(f):
+    # unzip -p /Users/nagars/Dev/jldapsearch/target/jldapsearch-1.0-SNAPSHOT.jar META-INF/MANIFEST.MF
+    result = subprocess.run(["unzip", "-p", f, "META-INF/MANIFEST.MF"], 
+                            capture_output=True, text=True, check=True)
+    return result.stdout
+
+
 def major_version(f):
     result = subprocess.run(
         ["javap", "-verbose", f], capture_output=True, text=True, check=True
@@ -21,17 +28,18 @@ def structure(f):
 
 
 def diff(class1, class2):
-    f1_major_version = major_version(class1)
-    f2_major_version = major_version(class2)
     lines1 = structure(class1).splitlines()
     lines2 = structure(class2).splitlines()
     diff = diff_list(class1, class2, lines1, lines2)
-    # print(f"{f1} {f1_major_version}")
-    # print(f"{f2} {f2_major_version}")
-    # print(diff)
     return diff
 
 
 def cdiff(zip1, zip2):
     clean = diff(zip1, zip2)
     return "\n".join(clean)
+
+def jdiff(jar1, jar2):
+    lines1 = jar_manifest(jar1).splitlines()
+    lines2 = jar_manifest(jar2).splitlines()
+    diff = diff_list(jar1, jar2, lines1, lines2)
+    return "\n".join(diff)

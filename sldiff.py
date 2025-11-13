@@ -63,6 +63,9 @@ def diff(dir1, dir2):
                                             args.trimlines, args.displaylines)
                     print(linediffs)
                 if mime_types.is_zip(item1):
+                    if mime_types.is_extension(item1, "jar"):
+                        linediffs = jdiff.jdiff(item1, item2)
+                        print(linediffs)
                     linediffs = zdiff.cdiff(item1, item2)
                     print(linediffs)
                 if args.classfiles:
